@@ -1,0 +1,7 @@
+"outputs" folder has 1 file and 2 subfolders.
+
+blacklist.csv: A global blacklist within the countries of our interest. This list consists of all adult sites and blocked sites from Bright Data which is ["xhamster.com", "netflix.com", "pornhub.com", "twitch.tv", "whatsapp.com", "xnxx.com", "xvideos.com"]
+
+all: "All categories" in similarweb.com. For example, the 50 websites in Germany are from https://www.similarweb.com/top-websites/germany/. Please be aware that this list may contain any site from our blacklist.
+
+adult: "Adult" sites in similarweb.com. For example, the 5 websites in Germany are from https://www.similarweb.com/top-websites/germany/category/adult/

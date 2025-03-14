@@ -1,0 +1,6 @@
+95.62% of queries are responsible, 3.48% show error messages, and 0.95% are empty.
+
+5026 / 5256 = 0.956240487
+183 / 5256 = 0.034817352
+50 / 5256 = 0.009512938
+

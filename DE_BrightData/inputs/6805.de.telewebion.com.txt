@@ -1,0 +1,37 @@
+Traceback (most recent call last):
+  File "/home/agamerog/seleniumq/selenium-app.py", line 97, in <module>
+    driver.get(url)
+  File "/usr/local/lib/python3.10/dist-packages/selenium/webdriver/remote/webdriver.py", line 447, in get
+    self.execute(Command.GET, {'url': url})
+  File "/usr/local/lib/python3.10/dist-packages/selenium/webdriver/remote/webdriver.py", line 435, in execute
+    self.error_handler.check_response(response)
+  File "/usr/local/lib/python3.10/dist-packages/selenium/webdriver/remote/errorhandler.py", line 247, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.TimeoutException: Message: timeout: Timed out receiving message from renderer: 283.878
+  (Session info: headless chrome=103.0.5060.53)
+Stacktrace:
+#0 0x55825d3a1783 <unknown>
+#1 0x55825d1ab738 <unknown>
+#2 0x55825d197748 <unknown>
+#3 0x55825d19631f <unknown>
+#4 0x55825d1968dc <unknown>
+#5 0x55825d1a3bef <unknown>
+#6 0x55825d1a4752 <unknown>
+#7 0x55825d1b2cfd <unknown>
+#8 0x55825d1b6c1a <unknown>
+#9 0x55825d196d06 <unknown>
+#10 0x55825d1b2a04 <unknown>
+#11 0x55825d214098 <unknown>
+#12 0x55825d200873 <unknown>
+#13 0x55825d1d61ea <unknown>
+#14 0x55825d1d7345 <unknown>
+#15 0x55825d3e6f4d <unknown>
+#16 0x55825d3eb0fc <unknown>
+#17 0x55825d3d11de <unknown>
+#18 0x55825d3ebcf8 <unknown>
+#19 0x55825d3c5ba0 <unknown>
+#20 0x55825d408448 <unknown>
+#21 0x55825d4085c8 <unknown>
+#22 0x55825d42273d <unknown>
+#23 0x7fad1bcf5b43 <unknown>
+

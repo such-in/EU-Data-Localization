@@ -1,0 +1,110 @@
+{
+    "gr": {
+        "unique_as_number": [
+            "11325"
+        ],
+        "unique_as_name": [
+            "AS11325, US"
+        ]
+    },
+    "it": {
+        "unique_as_number": [
+            "9009"
+        ],
+        "unique_as_name": [
+            "M247, GB"
+        ]
+    },
+    "se": {
+        "unique_as_number": [
+            "9009"
+        ],
+        "unique_as_name": [
+            "M247, GB"
+        ]
+    },
+    "ro": {
+        "unique_as_number": [
+            "9009"
+        ],
+        "unique_as_name": [
+            "M247, GB"
+        ]
+    },
+    "fr": {
+        "unique_as_number": [
+            "209372",
+            "9009"
+        ],
+        "unique_as_name": [
+            "M247, GB",
+            "WSTELECOM_CUSTOMERS, LV"
+        ]
+    },
+    "pl": {
+        "unique_as_number": [
+            "9009"
+        ],
+        "unique_as_name": [
+            "M247, GB"
+        ]
+    },
+    "es": {
+        "unique_as_number": [
+            "9009"
+        ],
+        "unique_as_name": [
+            "M247, GB"
+        ]
+    },
+    "nl": {
+        "unique_as_number": [
+            "9009"
+        ],
+        "unique_as_name": [
+            "M247, GB"
+        ]
+    },
+    "at": {
+        "unique_as_number": [
+            "9009"
+        ],
+        "unique_as_name": [
+            "M247, GB"
+        ]
+    },
+    "cz": {
+        "unique_as_number": [
+            "9009"
+        ],
+        "unique_as_name": [
+            "M247, GB"
+        ]
+    },
+    "de": {
+        "unique_as_number": [
+            "209372",
+            "9009"
+        ],
+        "unique_as_name": [
+            "M247, GB",
+            "WSTELECOM_CUSTOMERS, LV"
+        ]
+    },
+    "sk": {
+        "unique_as_number": [
+            "11325"
+        ],
+        "unique_as_name": [
+            "AS11325, US"
+        ]
+    },
+    "hu": {
+        "unique_as_number": [
+            "9009"
+        ],
+        "unique_as_name": [
+            "M247, GB"
+        ]
+    }
+}

@@ -1,0 +1,157 @@
+Column Name :  country
+cz    213228
+pl    188829
+es    122239
+it    100208
+bg     67055
+nl     57309
+de     46599
+fr     43535
+ro     31315
+se     30797
+sk     29239
+hu     25544
+ie     20226
+hr     20017
+at     19572
+dk     15386
+gr     14118
+fi     13254
+be      9013
+pt      7836
+Name: country, dtype: int64
+
+Column Name :  asn
+8220      3012
+16509     2863
+6830      2843
+9009      2794
+202422    2793
+          ... 
+20773      308
+42652      305
+25291      305
+15699      116
+42401       44
+Name: asn, Length: 1413, dtype: int64
+
+Column Name :  initial_domain_filename
+20220805-ES-766-httpswww.elmundo.es-DNS_Requests.txt         163
+20220806-ES-34285-httpswww.telecinco.es-DNS_Requests.txt     150
+20220805-ES-44278-httpswww.telecinco.es-DNS_Requests.txt     146
+20220805-ES-199952-httpswww.telecinco.es-DNS_Requests.txt    145
+20220805-ES-44431-httpswww.telecinco.es-DNS_Requests.txt     143
+                                                            ... 
+20220806-NL-58061-httpswww.plejada.pl-DNS_Requests.txt         1
+20220806-NL-58061-httpswww.wikipedia.org-DNS_Requests.txt      1
+20220805-DK-33796-httpswww.lectio.dk-DNS_Requests.txt          1
+20220805-ES-39155-httpswww.wikipedia.org-DNS_Requests.txt      1
+20220808-DE-42652-httpswww.wikipedia.org-DNS_Requests.txt      1
+Name: initial_domain_filename, Length: 65930, dtype: int64
+
+Column Name :  target_domain
+www.googletagmanager.com                                                      24102
+www.google-analytics.com                                                      22618
+ls.hit.gemius.pl                                                              16173
+www.google.com                                                                15438
+stats.g.doubleclick.net                                                       13724
+                                                                              ...  
+b23e1484b81f04c3e9759464f4758e2c1d45992cdd799cb22eb60695.trk.sensic.net           1
+1d75ce7e607bce675650a22ad2bf4470.safeframe.googlesyndication.com                  1
+1659751731530a1a336f289491a2ab18fa960ff29cf732ec0f03a4b9.tmptrk.sensic.net        1
+447374394cfc655399214c26ef8084e4.safeframe.googlesyndication.com                  1
+4a09b27632c2a798e204bd40685577a3.safeframe.googlesyndication.com                  1
+Name: target_domain, Length: 31202, dtype: int64
+
+Column Name :  initial_domain_tld_plus_one
+jbzd.com.pl       27975
+tiktok.com        24516
+naszemiasto.pl    24263
+telecinco.es      18276
+aktualne.cz       16256
+                  ...  
+winbank.gr           19
+unizg.hr             19
+vrisko.gr            19
+alfavita.gr          19
+supersport.hr        19
+Name: initial_domain_tld_plus_one, Length: 533, dtype: int64
+
+Column Name :  target_domain_tld_plus_one
+doubleclick.net          42765
+google.com               38678
+gemius.pl                36642
+google-analytics.com     31008
+googlesyndication.com    27016
+                         ...  
+ysucej.com                   1
+es.io                        1
+plus.pl                      1
+ngacm.com                    1
+trustx.org                   1
+Name: target_domain_tld_plus_one, Length: 1838, dtype: int64
+
+Column Name :  tld_plus_one_first_party
+Description: Is target domain a first party or not based on tld plus one? If yes, True. Otherwise, None. None includes inconclusive such as Google ASNs.
+True    176550
+None   898769
+Name: tld_plus_one_first_party, dtype: int64
+
+Column Name :  as_name_first_party
+Description: Is target domain a first party or not based on AS name? If yes, True. Otherwise, None. None includes inconclusive such as Google ASNs.
+True    789841
+None    285478
+Name: as_name_first_party, dtype: int64
+
+Column Name :  as_number_first_party
+Description: Is target domain a first party or not based on AS number? If yes, True. Otherwise, None. None includes inconclusive such as Google ASNs.
+True    789841
+None    285478
+Name: as_number_first_party, dtype: int64
+
+Column Name :  org_id_first_party
+Description: Is target domain a first party or not based on Org ID? If yes, True. Otherwise, None. None includes inconclusive such as Google ASNs.
+True    793573
+None    281746
+Name: org_id_first_party, dtype: int64
+
+Column Name :  org_name_first_party
+Description: Is target domain a first party or not based on Org Name? If yes, True. Otherwise, None. None includes inconclusive such as Google ASNs.
+True    793573
+None    281746
+Name: org_name_first_party, dtype: int64
+
+Column Name :  first_party
+Description: Is target domain a first party or not based on any criterion such as tld plus one, AS name, AS number, Org ID, or Org Name? If yes, True. Otherwise, None. None includes inconclusive such as Google ASNs.
+True    843909
+None    281746
+Name: first_party, dtype: int64
+
+Column Name :  is_target_domain_tracker
+Description: Is target domain a tracker? If yes, True. Otherwise, False. False includes inconclusive such as Google ASNs.
+True     712815
+False    362504
+Name: is_target_domain_tracker, dtype: int64
+
+Column Name :  is_target_domain_google
+Description: Is target domain under Google? If yes, True. Otherwise, False. True includes inconclusive such as Google ASNs.
+False    936415
+True     138904
+Name: is_target_domain_google, dtype: int64
+
+Column Name :  not_first_party_and_not_tracker
+Description: Is target domain neither a first party nor a tracker? If yes, show target domain. Otherwise, None. None includes inconclusive such as Google ASNs.
+None                 1015394
+twimg.com               2830
+rbxcdn.com              2791
+amazon-adsystem.com     1991
+captcha-delivery.com    1836
+rubiconproject.com      1789
+                        ... 
+google.ge                  1
+adguard.org                1
+ipredictive.com            1
+sonobi.com                 1
+sklik.cz                   1
+Name: not_first_party_and_not_tracker, Length: 357, dtype: int64
+
