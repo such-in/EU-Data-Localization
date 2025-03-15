@@ -1,0 +1,6 @@
+# Ignore LaTeX auxiliary files
+main.aux
+main.bbl
+main.blg
+main.log
+main.out
