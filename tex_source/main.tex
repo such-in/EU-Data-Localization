@@ -1,0 +1,137 @@
+\documentclass[sigconf,review,balance=false]{acmart}
+\usepackage{popets}
+\usepackage{amsmath}
+
+\setcopyright{popets}
+\copyrightyear{YYYY}
+\acmYear{YYYY}
+\acmVolume{YYYY}
+\acmNumber{X}
+\acmDOI{XXXXXXX.XXXXXXX}
+\acmISBN{}
+\acmConference{Proceedings on Privacy Enhancing Technologies}
+\settopmatter{printacmref=false,printccs=false,printfolios=true}
+
+
+
+
+
+ 
+
+  
+\begin{document}
+\author{Alexander Gamero-Garrido}
+\affiliation{%
+ \institution{University of California, Davis}
+ \streetaddress{}
+ \city{}
+ \state{}
+ \country{}
+ }
+
+\author{Kicho Yu}
+\affiliation{%
+ \institution{University of Southern California}
+ \streetaddress{}
+ \city{}
+ \state{}
+ \country{}
+ }
+
+\author{Sumukh Vasisht Shankar}
+\affiliation{%
+ \institution{Yale University}
+ \streetaddress{}
+ \city{}
+ \state{}
+ \country{}
+ }
+
+\author{Sachin Kumar Singh}
+\affiliation{%
+ \institution{University of Utah}
+ \streetaddress{}
+ \city{}
+ \state{}
+ \country{}
+ }
+
+\author{Sindhya Balasubramanian}
+\affiliation{%
+ \institution{Northeastern University}
+ \streetaddress{}
+ \city{}
+ \state{}
+ \country{}
+ }
+
+\author{Alexander Wilcox}
+\affiliation{%
+ \institution{Northeastern University}
+ \streetaddress{}
+ \city{}
+ \state{}
+ \country{}
+ }
+
+\author{David Choffnes}
+\affiliation{%
+ \institution{Northeastern University}
+ \streetaddress{}
+ \city{}
+ \state{}
+ \country{}
+ }
+
+
+
+
+
+
+
+
+  \title{Empirically Measuring Data Localization in the EU}
+
+
+
+\begin{abstract}EU data localization regulations limit data transfers to non-EU countries with the GDPR. However, BGP, DNS and other Internet protocols were not designed to enforce jurisdictional constraints, so implementing data localization is challenging. 
+Despite initial research on the topic, 
+little is known about if or how companies currently operate their server infrastructure to comply with the regulations.
+We close this knowledge gap by empirically measuring the extent 
+to which servers and routers that process EU requests are located 
+outside of the EU (and a handful of ``adequate'' non-EU countries). 
+The key challenge is that both browser measurements (to infer relevant endpoints) 
+and data-plane measurements (to infer relevant IP addresses) are needed, 
+but no large-scale public infrastructure allows both. We build a novel methodology 
+that combines BrightData (browser) and RIPE Atlas (data-plane) probes,
+ with joint measurements from over 1,000 networks in 20 EU countries.
+We find that, on average, 2.2\% of servers %
+serving users in each EU country are located in non-adequate destination countries (1.4\% of known trackers). 
+Our findings
+suggest that data localization policies are largely being followed
+by content providers, though there are %
+exceptions. %
+\end{abstract}
+
+  \keywords{Data Localization, GDPR, Internet Measurement}
+
+
+ 
+
+\maketitle
+\input{intro.tex}
+\input{method-domains.tex}
+\input{method-geolocation.tex}
+
+\input{results-overview.tex}
+\input{related.tex}
+
+{\sloppy
+\scriptsize{
+\bibliographystyle{ACM-Reference-Format}
+\interlinepenalty=10000
+\bibliography{references}}}
+
+\input{appendix.tex}
+
+\end{document}

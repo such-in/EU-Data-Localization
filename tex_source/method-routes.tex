@@ -1,0 +1,12 @@
+\section{Identifying Relevant Servers and Trackers}
+We ran XXX traceroutes several times a day from each of the AS in each country to the ZZZ target domains starting April XX, 2022. Our launch was guided by a few constraints, some simplistic while others more complex in nature - 
+Probes would need to be active or connected
+The probes we launch should be diverse in terms of country and ASN
+DNS resolution on a probe should occur locally
+
+Within these constraints, we launch ICMP traceroutes that were previously connected in the RIPE Atlas archives containing periodically retrieved probe information in terms of country present in, status, unique identifier among others. We use this information to target any 3 active probes  present in the target countries to launch traceroutes to targeted domains.
+
+Our final dataset contains XXX traceroutes launched using RIPE Atlas REST API GET and POST services with 3 packets per traceroute launched with a timeout of 4000 ms. With a sleep time of XXX ms, the measurement results formatted as .json files are retrieved from RIPE Atlas using the REST API GET service with an auto generated API key and are parsed to create a hop-by-hop result list of source IP, destination IP and each IP visited at each hop on the way.
+
+The distribution of the number of traceroutes reaching countries beyond the expected route have the following properties: (Min, 25th Pctl., Median, Mean, 75th Pctl., Max) = (36, 13k, 46k, 330k, 250k, 3.3m). 
+

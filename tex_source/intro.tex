@@ -1,0 +1,167 @@
+\section{Introduction}
+
+Regulators around the world have taken various approaches at mitigating potential harms
+resulting from unfettered collection of user data at a large scale by Internet companies, 
+usually for the purpose of targeted
+advertising. Data localization---broadly defined as the principle that 
+requires user data to be stored in the jurisdiction where the user is physically located---is 
+one such 
+regulatory approach and a key component of the EU's privacy landmark regulation enacted in 2018: 
+The General Data Protection Regulation (GDPR). 
+A central intent behind (GDPR) data localization is to prevent transfers of user 
+data to jurisdictions with weaker privacy protections, as such transfers expose 
+(EU) users to unlawful commercial surveillance of user data by both commercial 
+advertisers and foreign government agencies, 
+as was argued in the landmark \textit{Schrems} decisions \cite{schremsi,schremsii}.  
+
+
+In this paper, we explore the question of whether content providers serving users in Europe 
+comply with data localization regulations by locating their servers in the 
+EU (or a small number of third countries that the EU regulators have approved 
+data transfers to~\cite{Adequacy38:online}). In answering this question, we address a key technical 
+challenge. Since data localization is based on physical boundaries, three types 
+of information are simultaneously needed to audit compliance with data localization, 
+and no existing platform nor methodology can procure all three: 
+(\textit{i}) Which domains are most frequently visited by European users, including many additional 
+domains fetched automatically 
+by user-loaded websites. (\textit{ii}) The location in the network of all relevant 
+domains, that is, their IP addresses. (\textit{iii}) The physical location of the servers from 
+which these domains are loaded. While (\textit{iii}) is the key information needed to audit 
+data localization practices, in practical terms it is difficult to obtain it directly from (\textit{i}) 
+domain names; 
+rather, it is easier (though still challenging ~\cite{10.1145/3402413.3402415}) to obtain the physical location of IP addresses, 
+a necessary resource to connect to the Internet an actual server referenced by each domain.
+
+Our auditing framework on data localization compliance is built with 
+three components, each obtaining the necessary information described above. 
+First, we identify all popular domains in each EU country using queries from BrightData~\cite{BrightData}, 
+a proxy service that allows us to run a headless browser and therefore fetch complete web pages
+from EU-based devices. 
+Second, we launch active measurements from RIPE Atlas~\cite{RipeAtlasInfo} 
+to identify the IP addresses serving each domain. Third, we use RIPE IPMap,~\cite{10.1145/3402413.3402415}) 
+a database that translates IP addresses to a 
+physical location (IP geolocation),
+to identify IP addresses 
+that are potentially located in countries 
+outside the EU. We confirm a subset of these as likely 
+GDPR violations using active measurements and speed-of-light constraints.
+We validate our method using servers with known locations,
+finding no false positives.
+
+We find that the vast majority of servers responding to requests from EU users are 
+located in the EU or adequate third countries. %
+Neighbors of the EU, Russia and Turkey, are the most commonly observed destinations 
+in non-adequate countries, besides the US. These servers
+primarily serve requests in Finland and Romania, respectively.
+We find smaller numbers of servers and known trackers in other non-adequate countries
+further away from the EU, primarily in Asia.
+News websites are the leading cause of these potential GDPR violations,
+as they are the most common type of site
+that loads trackers in non-adequate countries.
+We find evidence of tracking activity taking place in a non-adequate 
+country using cookies as well.
+We also find significant differences across EU regions: Southern and Eastern EU
+countries are more likely to be served content by known trackers located in 
+non-adequate countries when compared to Western and Northern EU countries.
+
+Combined, these findings suggest that Internet companies are likely inclined to host content 
+in close proximity of users, which leads to by-default compliance with data localization 
+regulations; however, there are exceptions where rigid technical constraints
+may force Internet operators to serve EU users from non-compliant jurisdictions. 
+In these circumstances, the imposition of physical constraints on the Internet infrastructure
+is likely to be more challenging than currently recognized by both Internet operators and regulators alike,
+which is especially relevant as proposed regulations on data localization emerge in more 
+countries~\cite{Indiasd23:online,Dataloca93:online}. 
+
+\section{Policy Background}
+\label{sec:policy}
+\if 0
+ I imagine this would focus on 
+ 
+ (1) the language of the GDPR requirement, 
+ 
+ (2) any relevant process/case law/interpetation/legal guidelines for deeming a country to be adequate, and 
+ 
+ (3) examples of countries that are/are not authorized for cross-border transfers, in addition to discussing the specific US 
+ \fi
+ 
+
+Data transfers to jurisdictions with weaker privacy protections
+expose users in the initial jurisdiction to potential harms
+such as leaks of personal information to foreign governments
+or advertisers. 
+Despite these potential harms, little is known about whether or how 
+Internet companies that serve EU users operate their 
+infrastructure to comply with this provision of the GDPR (Chapter V). 
+
+Specifically, the GDPR in Article 45 mentions that 
+``A transfer of personal data to a third country or an international organisation may take place where the [European] 
+Commission has decided that the third country, a territory 
+or one or more specified sectors within that third country, or the 
+international organisation in question ensures an adequate level of protection.''~\cite{gdpreu}
+Generally speaking, the article refers to several principles that must be followed 
+in such countries receiving data transfers from EU persons, 
+such as ``elements like rule of law, respect for human rights and 
+fundamental freedoms, as well as whether or not data subjects' 
+rights are effective and enforceable, the existence and effective 
+functioning of an independent data protection authority in the non-EEA 
+country and the international commitments the country or 
+international organisation has entered into.''~\cite{edpb}
+These adequacy decisions are published on a European Commission (EC) 
+website~\cite{Adequacy38:online} and the decisions must be reviewed 
+and renewed periodically by law. At the time of writing, the EC has 
+determined that transfers between the EU and other European Economic Area countries 
+(Norway, Liechtenstein, and Iceland) are treated as intra-EU 
+transfers without needing any further safeguard. Also, according to that 
+same website, the EC ``has so far recognised Andorra, Argentina, Canada 
+(commercial organisations), Faroe Islands, Guernsey, Israel, Isle of Man, 
+Japan, Jersey, New Zealand, Republic of Korea, Switzerland, the United 
+Kingdom under the GDPR and the LED, the United States (commercial 
+organisations participating in the EU-US Data Privacy Framework) 
+and Uruguay as providing adequate protection.'' 
+
+Any countries not covered by the above list are potentially inadequate, 
+and any international data transfers from the EU to them would violate Article 
+45 if that country is deemed inadequate by EU courts, 
+\textit{e.g.}, the Court of Justice of the European Union (CJEU) or the EC. 
+Even countries previously determined to be adequate may face a reversal of that decision. 
+For example, in 2020, the CJEU determined in \textit{Schrems II}~\cite{schremsii}  
+that ``As a consequence of such a degree of interference with the fundamental rights of persons whose
+data are transferred to [the United States, where national security 
+laws limit data protections], the Court declared the Privacy Shield adequacy
+Decision invalid.''~\cite{edpb2}
+We note that data transfers to the US were not broadly authorized when we collected our data in Aug-Sept 2022,
+as the EU-US Data Privacy Framework was not adopted until December of that year ~\cite{EUUSData30:online}.
+The EU-US DPF was adopted in response to the \textit{Schrems II} decision and determined adequate by the EC in July 2023.~\cite{ecreport}
+
+
+Given regular instances of noncompliance resulting in EU-imposed penalties on Internet 
+companies~\cite{Asitsdat63:online,30Bigges7:online}, 
+it is clear that content providers are not universally
+complying with these GDPR provisions. 
+Besides these anecdotal instances, 
+and studies with limited relevance (see
+\S~\ref{sec:related}), 
+there is currently no EU-wide study of whether data localization 
+principles are being complied with in practice by content providers. 
+
+Indeed, privacy advocates have primarily relied on the \textit{possibility} 
+that data may be transferred to a jurisdiction with weaker privacy protections, 
+especially transatlantic transfers which might result in exposure to US government surveillance. 
+While these claims have successfully 
+moved the needle on public policy (holding large tech companies such as Google accountable for transatlantic
+data transfers~\cite{DSBAustr4:online}) through the European courts, 
+they are based on analyses of the tech companies' 
+own privacy policies and manual, surface-level analysis of HTML~\cite{101Compl42:online}; 
+thus, these methodologies are neither aimed at nor adequate to audit compliance of 
+data localization by content providers at EU scale. 
+
+In this paper, we focus on data transfers to countries not 
+determined to be adequate at the time of measurement (see definition of adequate above). 
+We refer to such countries as \emph{non-adequate}.
+Thus, our study identifies \textit{potential} GDPR violations, that is the existence of a tracking server in a non-adequate country.
+
+
+
+
+

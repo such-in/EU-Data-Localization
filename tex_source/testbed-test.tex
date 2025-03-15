@@ -1,0 +1,165 @@
+\section{Server Geolocation Validation}
+\label{sec:testbed}
+
+To validate our server geolocation method, we build an experiment 
+based on two sets of server IPs with known location.
+Each of these sets is based either in a non-adequate country, the 
+US,~\footnote{At the time of our main data collection. The validation experiment 
+was conducted in Feb. 2025, when the US had already received an adequacy decision.~\cite{latham}}
+or an adequate country, an EU member state.
+To conduct this validation experiment, we followed the four steps 
+of the methodology defined in \S~\ref{sec:servergeolocation} to perform 
+server IP geolocation: RIPE IPmap geolocation, source-based constraints, 
+destination-based constraints, and reverse DNS (rDNS).
+
+The results of this experiment are shown in Tab.~\ref{tab:testbedgeo}.
+In the following subsections, we describe this validation experiment.
+We also infer rates of true/false positives and precision of our method.
+Note that, as discussed in the limitations section (\S~\ref{sec:falsepos}), the 
+rate of false positives might be different in our main results.
+
+
+
+
+\subsection{Server Testbed in the US}
+We have administrative access 
+to a US testbed, CloudLab ~\cite{CloudLab}, and thus to ground truth mapping between server IP and country of operation. 
+We conducted experiments using 200 such servers from a testbed that are
+distributed across two different locations (L1 and L2), both in the US.
+These servers are the destination IPs for this experiment. 
+Further, we selected five source countries from 
+the European Union (EU). We included the largest EU country, France (by land area), 
+and four additional countries chosen randomly to represent different regions of the EU: 
+Poland from Eastern Europe, Germany from Western Europe, Ireland from Northern Europe, 
+and Spain from Southern Europe.
+For each source country, we randomly selected 40 server IPs as destinations across 
+the two testbed locations (L1 and L2). This results in a total of 200 destination IP-source
+country pairs (DSCPs). 
+
+The upper half of Tab.~\ref{tab:testbedgeo} shows the results of this
+experiment. In the rest of this paragraph, we describe these 
+findings in more detail. 
+We found that RIPE IPmap did not provide country-level geolocation 
+for three server IPs. %
+In the source-based traceroutes, five server IPs failed to respond, and 20 did not meet the 90\% 
+latency threshold described in \S~\ref{sec:source-based}. 
+We further excluded two server IPs
+using destination-based constraints. %
+Finally, when we analyzed rDNS data, 
+three of these servers had clues indicating they were not located in the city identified by RIPE IPmap,
+but they were still located in the US. As our method is concerned with
+country-level geolocation, we keep the server geolocation unchnaged from previous steps.
+In summary, our final dataset correctly geolocated 170 DSCPs 
+as being in the US,
+and discarded 30 DSCPs due to the constraints described above.
+
+
+
+
+
+
+
+
+\vspace{-10mm}
+\subsection{AWS Servers in the EU}
+
+To validate our method for adequate server IPs, 
+we conducted an experiment using 1,000 IPs in the EU 
+advertised by Amazon Web Services~\cite{aws_ip_ranges}. 
+We selected these IPs by intersecting the AWS-published IP ranges
+with the ISI IP Hitlist,~\cite{ant_hitlist} which estimates the likelihood
+that a server will respond to network measurements.
+The IPs we select have a score of 99 on the Hitlist. 
+We take this step in an attempt to maximize response rates to our measurements 
+since, unlike on the US testbed, 
+we have no direct knowledge of whether the AWS IPs are currently
+both routed and in use. This is also why we increase the 
+number of server IPs in the EU relative to the US experiments in the previous
+subsection.
+
+Similarly to our treatment of the US testbed, we divide the server IPs 
+into five groups corresponding to the same five 
+EU source countries. 
+The lower half of Tab.~\ref{tab:testbedgeo} shows the results of this experiment.
+
+From these 1,000 DSCPs, we find that RIPE IPMap 
+does not assign a country in 36 cases, and erroneously geolocates 
+270 DSCPs outside of the EU in non-adequate countries: 
+one in Pakistan, the rest in the US. 
+After conducting both our source- and destination-based measurements, 
+and applying speed of light constraints, these 270 DSCPs are all discarded.
+At this stage, 27 DSCPs are correctly labeled as being in an (adequate)
+EU country.
+rDNS confirms this assertion in all 27 cases.
+
+
+
+\begin{table}
+  \caption{DSCP Geolocation for server validation experiment. 
+ST/DT: Source/Destination Traceroutes. 
+TB: Server Testbed. *No hostname/no geohint.}
+  \label{tab:testbedgeo}
+  \begin{tabular}{ccccc}
+    \toprule
+    \textbf{Method} & \textbf{DSCPs} & \textbf{Unres-} & \textbf{Adequate} & \textbf{Non-}\\
+     &  & \textbf{ponsive} &  & \textbf{adequate} \\
+    \toprule
+    ST: US TB & 197  & 5 & 0 & 172 \\
+    DT: US TB & 172 & 0 & 0& 170 \\
+    rDNS: US TB & 170 & 99/0* & 0 & 170 \\
+    \midrule
+    ST: AWS & 964  & 910 & 50  & 0 \\
+    DT: AWS & 50  & 21 & 27  & 0 \\
+    rDNS: AWS & 27  & 0/0* & 27  & 0 \\
+  \bottomrule
+\end{tabular}
+\end{table}
+
+
+\subsection{True/False Positives and Negatives, Precision}
+In this subsection, we describe the rates of
+true/false positives and negatives,
+along with precision, that result
+from our validation experiments.
+
+\textbf{False positives and true negatives}. 
+The outcome of the AWS experiment is either a false positive,
+where a server 
+in an adequate country is incorrectly inferred as being in a
+non-adequate country; or a true negative,
+where a server in an adequate country is correctly labeled as being so.
+
+Given the results of the AWS validation experiment, 
+we infer \textit{no false positives}.
+This is because all servers initially labeled as being outside the 
+EU by RIPE IPMap were correctly discarded---assigned a negative label---by 
+subsequent steps in our method. 
+Note that our source- and destination-based filters 
+aggressively discard DSCPs because they are
+either unresponsive or the latency fails our speed of light constraints.
+Thus, after all filters are applied, 
+the \textit{true negative} rate is 100\%.
+
+In aggregate, these results suggest that the coverage of our method is limited,
+because it excludes servers that may actually be located 
+in a non-adequate country. 
+Simultaneously, our method reduces the likelihood of false positives. 
+Thus, in this experiment, our method is working as intended.
+
+
+\textbf{True positives and false negatives}. Recall that the US was a 
+non-adequate destination at the time of our main data collection,
+so all servers in the US testbed
+have a non-adequate country as their ground truth location; %
+thus, all DSCPs in the US testbed validation experiment are either
+correctly allocated to the US, a true positive, or discarded, a false negative.
+Our method correctly identified 170 DSCPs as being in the US,
+of 200 DSCPs known to be in the US.
+Therefore, the \textit{true positive} rate of our method in this experiment is 85\%,
+and the \textit{false negative} rate is 15\%.
+
+\textbf{Precision}. From the aforementioned results,
+in particular given the absence of false positives,
+the inferred \textit{precision} of our method 
+in the validation experiments is 1.0.
+

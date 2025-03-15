@@ -1,0 +1,290 @@
+\section{Discussion}
+In this section we discuss our findings on data localization compliance
+in the EU.
+
+\subsection{Causes for Servers/Trackers in Non-Adequate Destinations}
+Our method does not reveal the causes for web servers or trackers to be located in 
+non-adequate countries, which is potentially unlawful in the EU.
+We speculate about some potential causes here.
+First, the content provider is intent in serving EU users from the EU (or an adequate country),
+but in the presence of temporary server or router outages, it directs the user request to a backup
+location elsewhere.
+Second, the content owners may not know that the user is located in the EU,
+as Internet protocols were not designed with physical nor jurisdictional constraints.
+For instance, \textit{vk.com} might mistakenly infer that a user is located within Russia, thus
+directing them to their servers there.
+Third, in some instances, performance considerations may trump legal compliance.
+For instance, users in Romania might experience much higher latency if their
+content is served from a server in, say, Belgium, rather than Turkey, which is much closer.
+
+\subsection{US as Destination}
+The US is the most frequent non-adequate destination in our data,
+observed from all but two EU countries in the sample.
+The US is, of course, a key provider of cloud services,
+and the home base of most of the world's largest content providers.
+Partly given the amount of economic activity spurred by data transfers
+between the US and the EU, the executive branches of both jurisdictions are intent on generating a
+framework that broadly authorizes such transfers~\cite{EUUSData30:online,FACTSHEE89:online}. 
+Such a framework is not guaranteed to stand up in the EU courts as previous attempts at
+authorizing transfers from the EU to the US have failed in the EU's legal system~\cite{ThirdTim84:online}.
+Whether the latest
+EU-US framework will pass muster under future judicial review remains an open question
+according to legal experts~\cite{ceps}.
+
+\subsection{Regulatory Considerations}
+The wide variety of trackers observed, loaded from an also varied
+set of popular sites in each country, may pose challenges of scale for case-by-case regimes
+such as the Standard Contractual Clauses (SCCs)~\cite{sccs},
+particularly when auditing compliance. 
+These have been applied to US companies~\cite{leglobal}
+and are also in consideration~\cite{sccs} for data transfers to countries in 
+Southeast Asia (ASEAN). We observed multiple ASEAN member countries~\cite{asean}
+as destinations in our data: Thailand, Singapore and Malaysia. While
+they are relatively uncommon destinations in our sample, EU-ASEAN
+agreements~\cite{sccs} might change that in the future.
+
+\subsection{News Sites}
+The concentration we observed, where trackers in non-adequate countries
+are primarily loaded by news sites, provides a potential opportunity
+when designing data localization auditing frameworks in other jurisdictions
+outside the EU: the websites in this
+category should be evaluated first. This prioritization might 
+be particularly useful in pilot evaluations of compliance with newly introduced
+data localization requirements, or in environments where data collection is constrained
+for instance by available bandwidth or where electric supply is less reliable.
+
+\subsection{Regional Differences}
+Perhaps the most surprising result in our study is the
+differing rates of compliance across EU regions. While
+certainly there are cultural and economic differences between
+them, in theory it is not more challenging for a content provider
+to deliver content from within Europe: there is ample available infrastructure
+within the continent. However the disparities in 
+compliance with data localization principles for trackers were significant. 
+This uneven compliance with regulation intended to 
+protect user privacy poses questions in equity and fairness:
+the wealthier regions of the EU (Northern and Western) might 
+be able to provide more uniform protections to their users than the 
+less affluent regions in the south and east. Extrapolating this to
+other jurisdictions who may be considering, or have recently implemented
+data localization requirements, these equity and fairness considerations
+are worth examining empirically. Empirical audits as the one we have presented in 
+this study can reveal these issues 
+with the greatest clarity.
+
+\subsection{Russia and Finland}
+The case of \textit{vk.com}, as accessed in Finland, presents a particular challenge
+for data privacy. The company's CEO has been sanctioned by the EU in connection 
+with the Ukraine conflict~\cite{vksanction}; the company 
+is also state-owned (by Russia)~\cite{russiavk}. However,
+since the services provided by VK are popular among Russian speakers,
+which are a substantial portion of the population of many Eastern EU countries
+and Finland, an outright ban of the service would negatively impact
+these groups. We do find that \textit{vk.com} loads third party trackers in Russia,
+creating a potential geopolitical challenge in addition to the usual potential privacy harms.
+
+\input{testbed-test.tex}
+
+\section{Proxy Location Validation}
+\label{sec:proxyval}
+We conduct an experiment to investigate whether
+BrightData's claims about requests being routed through 
+an AS-Country Pair are accurate. To this
+end, we set up a web server at Northeastern University and
+send HTTP requests through BrightData from each 
+ASCP. All of the requests this server received were IPv4,
+and we take steps to preserve the privacy of BrightData users
+(who host the proxies in their own devices) by recording only the 
+/24 subnet from which we received the request to our university server. 
+We then compare the country and AS claimed by 
+BrightData with those identified by geolocation database 
+Maxmind~\cite{maxmindgeoloc}.
+We fetch the AS and country for every IP in the /24 prefix through Maxmind.
+
+We find that BrightData seems to be almost always routing
+requests through the ASCP they claim.
+Of the 2,319 valid requests received by this server from BrightData,
+all but five are accurate. Thus, 2,314 requests have an IP that is 
+part of a /24 prefix entirely present in the same ASCP according
+to Maxmind.
+The five exceptions include two where the country does not match (but the AS does), two where the AS does not match
+(but the country does), and one where neither AS nor country are a match.
+Therefore, we conclude that BrightData is an appropriate proxy to use for the 
+purposes of routing requests through a specific AS in a given country.
+
+We acknowledge that geolocation databases are prone to errors. However,
+since we are working at the country level granularity, 
+these errors are less common~\cite{10.1007/978-3-030-98785-5_6,10.1145/1971162.1971171}.
+Of course, it is possible that both BrightData and Maxmind are often both incorrect and in agreement about
+the ASCP where a user is located, but we argue that this is a remote possibility.
+
+\section{Limitations}
+In this section, we describe the main limitations of our approach. 
+
+\subsection{Domain Exclusions}
+\label{sec:domexc}
+As described in \S~\ref{sec:domains}, our framework excludes
+both Google-owned and adult websites as initial domains.
+This exclusion is caused by BrightData rules. Thus,
+our method is not able to study
+these two groups of domains, particularly as
+initial sites. For Google domains, this limitation
+does not apply when they are loaded as third-parties by
+other websites that are not Google owned.
+
+\subsection{Potential for False Positives}
+\label{sec:falsepos}
+Since we do not have access to ground truth 
+on physical server location, the rate of false positives in our
+results is not known. 
+For instance, there could be interactions between the 
+server response rate to traceroutes and their geographic
+location, which would impact our findings.
+While we conducted a validation experiment
+using servers with known location (\S~\ref{sec:testbed}),
+it is still possible that the servers loaded by popular EU sites,
+\textit{i.e.}, the servers we study in our main results section,
+respond differently to our measurements than the servers in the
+validation experiments. Furthermore, 
+the EU servers in the validation experiment may treat 
+traceroutes differently from other traffic,
+potentially impacting our latency-based geolocation techniques.
+Finally, the scale of our validation experiment is smaller than
+the experimental setup in our main results,
+which may impact the former's generalizability.
+Therefore, the false positive rates in the validation 
+experiment %
+might differ from those in our main results.
+Due to all the aforementioned factors, 
+the lack of information regarding false positive rates and
+precision in our main results is a limitation of this study.
+
+
+
+\subsection{Alternative CDN Nodes}
+A key limitation of our study 
+is that we do not collect alternative server locations
+for each destination, for instance available CDN nodes
+~\cite{10.1145/1159913.1159962} from each ASCP.
+This additional CDN-node data
+would  potentially reveal whether the content providers are making their best effort to
+comply with GDPR's data localization policies, \textit{i.e.}, they are
+picking compliant servers even when they offer worse performance.
+Alternatively, the content providers could instead primarily be selecting these servers
+based on performance attributes such as latency.
+Thus, our study is not able to distinguish between 
+server placement that is based on performance constraints or
+GDPR data localization compliance.
+
+\subsection{Inference of GDPR Violations}
+
+Our study is not able to make final determinations on GDPR violations. 
+This is because legal exemptions may exist to mitigate the instances
+where we have identified servers in non-adequate countries.
+Further, a ruling on any potential GDPR violation would require additional
+context on the specific data that was transferred and any legal contracts
+in place between various entities, including privacy regulators~\cite{sccs}.
+Ultimately, as such a determination of a GDPR violation would likely 
+take place in a judicial context and be subject
+to considerations beyond the physical location of a server. 
+
+\subsection{Framework Applicability in Other Regions}
+Our framework has limited applicability beyond the EU due to measurement
+infrastructure density. Previous work has found that 
+RIPE Atlas has more density of
+deployment in Europe compared to other regions~\cite{ripeatlasbias,10198985}.
+While geographic bias in the BrightData platform has not been as rigurously
+quantified, even a cursory look at their top proxy locations reveals potential bias,
+with the US and India having a similar number of IPs available even though the
+latter is considerably larger in terms of Internet users.~\cite{topproxylocations}
+
+
+
+
+\section{Related Work}
+\label{sec:related}
+
+Iordanou et al. ~\cite{10.1145/3278532.3278561} studies the
+cross-border web tracking that targets users in the EU,
+specifically the geographic scope of these data flows.
+There are some similarities between this study and our work.
+As in our study,
+the previous work leverages large-scale Internet measurements,
+partially launched from real end-user devices,
+to study the location of servers responding to requests in the EU.
+Both the related work and our study conclude that 
+most traffic stays within the EU (or, in our case,
+in the EU and adequate third countries); and
+both also rely on RIPE IPmap for server geolocation, though our
+framework also collects both source- and destination-based
+measurements, and rDNS data, to validate each individual server inferred to be 
+in a non-adequate country.
+
+However, this previous work ~\cite{10.1145/3278532.3278561} differs from ours
+in three key ways.
+First, their focus is entirely on 
+tracking servers, as they are interested in tracking flows, whereas we
+investigate both general-purpose servers as well as tracking servers,
+as we are instead interested in auditing data localization.
+Second, the related work's
+focus is on maximizing coverage of potential \textit{tracking flows},
+whereas our study is focused on obtaining a representative
+sample of \textit{source networks} in the EU. Third,
+Iordanou et al. launch measurements from a browser
+extension deployed to 183 EU users over a longer
+period of several months, and intersect the
+tracking servers there observed in ISP NetFlow data from
+four large networks in three countries, whereas we rely 
+on a point-in-time collection from a proxy deployed to more than 1,000 networks
+in 20 countries.
+
+
+Previous work has also tackled the issue of identifying cross-border data 
+transfers. %
+Guam{\'a}n et al.~\cite{9328756} study
+the geographic spread of data flows originating from Android apps and evaluates
+whether these flows comply with both the developer's privacy policies as
+well as the GDPR. 
+Razaghpanah et al. ~\cite{DBLP:conf/ndss/RazaghpanahNVSA18}
+analyze tracking by mobile apps and whether these flows comply with
+EU regulations, including an analysis of non-EU server locations.
+Similarly, Nan et al. ~\cite{285453}
+apply static analysis techniques to IoT companion apps (the smartphone apps needed to operate 
+most IoT devices) and reveal data exposure caused by these devices.
+Finally, Urban et al. ~\cite{10.1145/3366423.3380203} study third-party services in the
+Web to generate a tree of dependencies that represents which additional services
+are loaded by each initial third party contacted by a website.
+While not a central focus of the latter two studies,
+the authors do investigate the country where third-party servers that receive IoT/Web data (respectively) are located.
+We note that all the studies cited in this paragraph rely on a geolocation
+database (prone to inaccuracies ~\cite{10.1145/1971162.1971171, 10.1007/978-3-030-98785-5_6}) to pin the location of servers,
+a method which often overstates the prevalence of servers located in the US~\cite{10.1145/3278532.3278561}, 
+without conducting additional verification using Internet measurements,
+as we have done in our work. Thus, we argue that our framework is more applicable
+for auditing compliance with data localization requirements.
+
+
+
+\section{Conclusion and Future Work}
+A key component of the GDPR is the data localization regulation.
+However, to date there was not a method to audit compliance
+with this requirement at continental scale.
+Our method fills this gap and provides a framework 
+for empirically auditing compliance
+with data localization principles and laws, and specifically investigate
+such compliance for known trackers, which pose a greater privacy risk.
+To accomplish this, we collect both browser-based data, the websites and 
+domains loaded while browsing popular sites, and network-based data,
+the servers that respond to such requests. We find that 
+data localization requirements are broadly complied with in the EU,
+though there are meaningful exceptions, which are more prevalent 
+some regions. %
+
+In the future, we plan on investigating the causes of high compliance rates,
+disambiguating between legal compliance and performance prioritization by
+web content companies. We further plan on applying this framework to regions
+beyond the EU. In these regions, there are regulations that differ from the GDPR
+on data localization to varying extents, providing opportunities for comparative
+analyses of policy effectiveness with regards to data localization.
+
+
